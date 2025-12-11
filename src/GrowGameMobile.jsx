@@ -353,6 +353,7 @@ export default function GrowGameMobile() {
         background: stage.bg,
         touchAction: "none",
         overscrollBehavior: "contain",
+        paddingBottom: "env(safe-area-inset-bottom, 20px)",
       }}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
@@ -416,7 +417,12 @@ export default function GrowGameMobile() {
         <div className="absolute bottom-0 w-full h-8 bg-gradient-to-t from-green-800 to-green-600" />
       </div>
 
-      <div className="p-4 bg-black/30">
+      <div
+        className="p-4 bg-black/30"
+        style={{
+          paddingBottom: "calc(env(safe-area-inset-bottom, 16px) + 16px)",
+        }}
+      >
         <div
           className="bg-gray-800 p-2 rounded-xl mx-auto"
           style={{ width: "fit-content" }}
