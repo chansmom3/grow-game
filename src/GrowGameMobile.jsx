@@ -250,14 +250,28 @@ export default function GrowGameMobile() {
 
   if (screen === "upload") {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-blue-500 to-purple-600 flex flex-col items-center justify-center p-6">
-        <div className="text-center text-white mb-8">
-          <div className="text-6xl mb-4">🚀</div>
-          <h1 className="text-3xl font-bold mb-2">나의 성장 2048</h1>
-          <p className="opacity-80">점수가 오를수록 내가 커진다!</p>
-        </div>
+      <div className="min-h-screen flex flex-col items-center justify-center p-6 relative">
+        {/* Background image layer */}
+        <div
+          className="absolute inset-0 z-0"
+          style={{
+            backgroundImage: `url("/space-bg.jpg")`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+        />
+        {/* Dark overlay for better text readability */}
+        <div className="absolute inset-0 z-0 bg-black/40" />
+        {/* Content layer */}
+        <div className="relative z-10 w-full flex flex-col items-center">
+          <div className="text-center text-white mb-8">
+            <div className="text-6xl mb-4">🚀</div>
+            <h1 className="text-3xl font-bold mb-2">나의 성장 2048</h1>
+            <p className="opacity-80">점수가 오를수록 내가 커진다!</p>
+          </div>
 
-        <div className="bg-white rounded-3xl p-8 w-full max-w-sm shadow-2xl">
+          <div className="bg-white rounded-3xl p-8 w-full max-w-sm shadow-2xl">
           <div className="text-center mb-6">
             <div className="w-32 h-32 mx-auto bg-gray-100 rounded-full flex items-center justify-center mb-4 border-4 border-dashed border-gray-300">
               <span className="text-5xl">🤳</span>
@@ -286,6 +300,7 @@ export default function GrowGameMobile() {
           >
             기본 캐릭터로 시작
           </button>
+          </div>
         </div>
       </div>
     );
@@ -293,7 +308,21 @@ export default function GrowGameMobile() {
 
   if (screen === "adjust") {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-blue-500 to-purple-600 flex flex-col items-center justify-center p-6">
+      <div className="min-h-screen flex flex-col items-center justify-center p-6 relative">
+        {/* Background image layer */}
+        <div
+          className="absolute inset-0 z-0"
+          style={{
+            backgroundImage: `url("/space-bg.jpg")`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+        />
+        {/* Dark overlay for better text readability */}
+        <div className="absolute inset-0 z-0 bg-black/40" />
+        {/* Content layer */}
+        <div className="relative z-10 w-full flex flex-col items-center">
         <div className="text-white text-center mb-4">
           <h2 className="text-xl font-bold">얼굴 위치 조절</h2>
           <p className="text-sm opacity-80">원 안에 얼굴이 오도록 조절하세요</p>
@@ -379,28 +408,46 @@ export default function GrowGameMobile() {
             게임 시작! 🎮
           </button>
         </div>
+        </div>
       </div>
     );
   }
 
   return (
     <div
-      className="min-h-screen flex flex-col"
+      className="min-h-screen flex flex-col relative"
       style={{
-        backgroundImage: `${stage.bg}, url("/space-bg.jpg")`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
         touchAction: "none",
         overscrollBehavior: "contain",
-        paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 60px)",
+        paddingTop: "env(safe-area-inset-top, 0px)",
+        paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 20px)",
       }}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      <div className="p-4 text-white">
-        <div className="w-full max-w-md mx-auto mb-3">
+      {/* Background image layer */}
+      <div
+        className="absolute inset-0 z-0"
+        style={{
+          backgroundImage: `url("/space-bg.jpg")`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      />
+      {/* Gradient overlay layer */}
+      <div
+        className="absolute inset-0 z-0"
+        style={{
+          background: stage.bg,
+          opacity: 0.7,
+        }}
+      />
+      {/* Content layer */}
+      <div className="relative z-10 flex flex-col flex-1">
+      <div className="pt-2 px-4 pb-2 text-white">
+        <div className="w-full max-w-md mx-auto mb-2">
           <div className="flex justify-between text-xs opacity-80 mb-1 px-1">
             <span>TIME</span>
             <span>{formatTime(timeLeft)}</span>
@@ -419,9 +466,9 @@ export default function GrowGameMobile() {
       </div>
 
       <div
-        className="flex-1 relative overflow-hidden flex items-end justify-center pb-4"
+        className="flex-1 relative overflow-hidden flex items-end justify-center"
         style={{
-          paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 24px)",
+          paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 8px)",
         }}
       >
         {score >= 200 && (
@@ -477,9 +524,9 @@ export default function GrowGameMobile() {
       </div>
 
       <div
-        className="p-4 bg-black/30"
+        className="pt-3 px-4 pb-2 bg-black/30"
         style={{
-          paddingBottom: "calc(env(safe-area-inset-bottom, 12px) + 16px)",
+          paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 8px)",
         }}
       >
         <div
@@ -506,6 +553,7 @@ export default function GrowGameMobile() {
           </div>
         </div>
         <p className="text-center text-white/60 text-sm mt-2">스와이프로 이동</p>
+      </div>
       </div>
 
       {gameOver && (
