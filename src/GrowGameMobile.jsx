@@ -353,7 +353,7 @@ export default function GrowGameMobile() {
         background: stage.bg,
         touchAction: "none",
         overscrollBehavior: "contain",
-        paddingBottom: "env(safe-area-inset-bottom, 20px)",
+        paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 80px)",
       }}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
@@ -364,7 +364,12 @@ export default function GrowGameMobile() {
         <div className="text-sm opacity-80">{stage.zone}</div>
       </div>
 
-      <div className="flex-1 relative overflow-hidden flex items-end justify-center pb-4">
+      <div
+        className="flex-1 relative overflow-hidden flex items-end justify-center pb-4"
+        style={{
+          paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 40px)",
+        }}
+      >
         {score >= 2000 && (
           <div className="absolute top-10 w-full flex justify-around opacity-50 text-4xl">
             <span>☁️</span>
@@ -420,7 +425,7 @@ export default function GrowGameMobile() {
       <div
         className="p-4 bg-black/30"
         style={{
-          paddingBottom: "calc(env(safe-area-inset-bottom, 16px) + 16px)",
+          paddingBottom: "calc(env(safe-area-inset-bottom, 16px) + 24px)",
         }}
       >
         <div
