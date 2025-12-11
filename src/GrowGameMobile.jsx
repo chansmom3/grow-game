@@ -387,10 +387,13 @@ export default function GrowGameMobile() {
     <div
       className="min-h-screen flex flex-col"
       style={{
-        background: stage.bg,
+        backgroundImage: `${stage.bg}, url("/space-bg.jpg")`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
         touchAction: "none",
         overscrollBehavior: "contain",
-        paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 80px)",
+        paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 60px)",
       }}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
@@ -418,7 +421,7 @@ export default function GrowGameMobile() {
       <div
         className="flex-1 relative overflow-hidden flex items-end justify-center pb-4"
         style={{
-          paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 40px)",
+          paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 24px)",
         }}
       >
         {score >= 200 && (
@@ -476,7 +479,7 @@ export default function GrowGameMobile() {
       <div
         className="p-4 bg-black/30"
         style={{
-          paddingBottom: "calc(env(safe-area-inset-bottom, 16px) + 24px)",
+          paddingBottom: "calc(env(safe-area-inset-bottom, 12px) + 16px)",
         }}
       >
         <div
