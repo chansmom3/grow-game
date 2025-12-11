@@ -5,3 +5,19 @@
 body {
   @apply min-h-screen bg-slate-900 text-slate-50;
 }
+
+@keyframes timer-shake {
+  0% {
+    transform: translateX(-2px);
+  }
+  50% {
+    transform: translateX(2px);
+  }
+  100% {
+    transform: translateX(-2px);
+  }
+}
+
+.timer-shake {
+  animation: timer-shake 0.6s ease-in-out infinite;
+}

@@ -1,6 +1,7 @@
-import { useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const GRID_SIZE = 4;
+const GAME_TIME = 120; // seconds
 
 const COLORS = {
   2: "#a8e6cf",
@@ -25,35 +26,35 @@ const STAGES = [
     scale: 0.4,
   },
   {
-    score: 500,
+    score: 50,
     bg: "linear-gradient(180deg, #87CEEB 0%, #228B22 100%)",
     height: 40,
     zone: "🏠 마을",
     scale: 0.55,
   },
   {
-    score: 2000,
+    score: 200,
     bg: "linear-gradient(180deg, #4A90D9 0%, #87CEEB 100%)",
     height: 55,
     zone: "🏙️ 도시",
     scale: 0.7,
   },
   {
-    score: 5000,
+    score: 500,
     bg: "linear-gradient(180deg, #2E5090 0%, #87CEEB 100%)",
     height: 70,
     zone: "☁️ 구름",
     scale: 0.85,
   },
   {
-    score: 10000,
+    score: 1000,
     bg: "linear-gradient(180deg, #1a1a2e 30%, #4A90D9 100%)",
     height: 85,
     zone: "✈️ 하늘",
     scale: 1,
   },
   {
-    score: 30000,
+    score: 3000,
     bg: "linear-gradient(180deg, #0f0f23 0%, #1a1a2e 100%)",
     height: 100,
     zone: "🚀 우주",
@@ -87,7 +88,34 @@ export default function GrowGameMobile() {
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [touchStart, setTouchStart] = useState(null);
+  const [timeLeft, setTimeLeft] = useState(GAME_TIME);
   const fileInputRef = useRef(null);
+  const timerRef = useRef(null);
+
+  useEffect(() => {
+    // Reset timer and clear game-over when entering the game screen
+    if (screen === "game") {
+      setTimeLeft(GAME_TIME);
+      setGameOver(false);
+    }
+  }, [screen]);
+
+  useEffect(() => {
+    if (screen !== "game" || gameOver) return;
+    timerRef.current = setInterval(() => {
+      setTimeLeft((t) => {
+        if (t <= 1) {
+          clearInterval(timerRef.current);
+          setGameOver(true);
+          return 0;
+        }
+        return t - 1;
+      });
+    }, 1000);
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [screen, gameOver]);
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -207,9 +235,18 @@ export default function GrowGameMobile() {
     setGrid(initGrid());
     setScore(0);
     setGameOver(false);
+    setTimeLeft(GAME_TIME);
   };
 
   const stage = [...STAGES].reverse().find((s) => score >= s.score) || STAGES[0];
+
+  const formatTime = (seconds) => {
+    const m = Math.floor(seconds / 60)
+      .toString()
+      .padStart(1, "0");
+    const s = (seconds % 60).toString().padStart(2, "0");
+    return `${m}:${s}`;
+  };
 
   if (screen === "upload") {
     return (
@@ -359,9 +396,23 @@ export default function GrowGameMobile() {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      <div className="p-4 text-white text-center">
-        <div className="text-2xl font-bold">⭐ {score.toLocaleString()}</div>
-        <div className="text-sm opacity-80">{stage.zone}</div>
+      <div className="p-4 text-white">
+        <div className="w-full max-w-md mx-auto mb-3">
+          <div className="flex justify-between text-xs opacity-80 mb-1 px-1">
+            <span>TIME</span>
+            <span>{formatTime(timeLeft)}</span>
+          </div>
+          <div className="h-3 bg-white/15 rounded-full overflow-hidden timer-shake">
+            <div
+              className="h-full bg-gradient-to-r from-amber-400 to-red-500"
+              style={{ width: `${(timeLeft / GAME_TIME) * 100}%` }}
+            />
+          </div>
+        </div>
+        <div className="text-center">
+          <div className="text-2xl font-bold">⭐ {score.toLocaleString()}</div>
+          <div className="text-sm opacity-80">{stage.zone}</div>
+        </div>
       </div>
 
       <div
@@ -370,13 +421,13 @@ export default function GrowGameMobile() {
           paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 40px)",
         }}
       >
-        {score >= 2000 && (
+        {score >= 200 && (
           <div className="absolute top-10 w-full flex justify-around opacity-50 text-4xl">
             <span>☁️</span>
             <span>☁️</span>
           </div>
         )}
-        {score >= 10000 && (
+        {score >= 1000 && (
           <div className="absolute top-4 w-full flex justify-around text-2xl">
             <span>✨</span>
             <span>⭐</span>
